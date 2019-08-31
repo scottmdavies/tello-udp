@@ -7,7 +7,7 @@ print("UDP target port:", UDP_PORT)
 
 
 class Tello(object):
-    def __init__(self, interface=2, timeout=2):
+    def __init__(self, interface=2, timeout=3): 
         self.sock = socket.socket(socket.AF_INET, # Internet
                socket.SOCK_DGRAM, socket.IPPROTO_UDP) # UDP
         # self.sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, interface)
@@ -20,7 +20,7 @@ class Tello(object):
         if verbose:
             print('sent', '"'+message+'"')
             print('waiting for response...')
-
+        
         # Get return data:
         try:
             data, server = self.sock.recvfrom(UDP_PORT)
@@ -39,4 +39,8 @@ if __name__ == "__main__":
     test.send("command")
     #test.send("time?")
     while True:
-        test.send(input(">>>"), verbose=True)
+        user_input = input(">>>")
+        if user_input != "exit":   
+            test.send(user_input, verbose=True)
+        else:
+            break
